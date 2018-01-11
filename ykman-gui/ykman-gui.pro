@@ -1,6 +1,6 @@
 TEMPLATE = app
 QT += qml quick widgets
-CONFIG += c++11
+CONFIG += c++11 console
 SOURCES += main.cpp
 
 # This is the verson number for the application,
