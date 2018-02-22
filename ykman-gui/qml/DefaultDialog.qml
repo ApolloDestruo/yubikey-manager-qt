@@ -5,14 +5,9 @@ import QtQuick.Window 2.2
 
 ApplicationWindow {
 
-    SystemPalette {
-        id: palette
-    }
-
     flags: Qt.Dialog | Qt.CustomizeWindowHint | Qt.WindowTitleHint
            | Qt.WindowCloseButtonHint | Qt.MSWindowsFixedSizeDialogHint
     modality: Qt.ApplicationModal
-    color: palette.window
 
     default property alias content: inner_content.data
     signal accepted
