@@ -1,6 +1,6 @@
 import QtQuick 2.5
 import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.4
+import QtQuick.Controls 2.3
 import QtQuick.Dialogs 1.2
 import "slotutils.js" as SlotUtils
 
@@ -26,14 +26,13 @@ ColumnLayout {
         font.bold: true
     }
 
-
     GridLayout {
         Layout.fillWidth: true
         columns: 2
 
         RadioButton {
             id: shortPress
-            exclusiveGroup: slotRadioBtns
+            //exclusiveGroup: slotRadioBtns
             checked: selectedSlot == 1
             text: qsTr("Short Press (Slot 1):")
             property int slotNumber: 1
@@ -49,7 +48,7 @@ ColumnLayout {
 
         RadioButton {
             id: longPress
-            exclusiveGroup: slotRadioBtns
+            //exclusiveGroup: slotRadioBtns
             checked: selectedSlot == 2
             text: qsTr("Long Press (Slot 2):")
             property int slotNumber: 2
@@ -64,10 +63,10 @@ ColumnLayout {
         }
     }
 
+    /*
     ExclusiveGroup {
         id: slotRadioBtns
-    }
-
+    } */
     RowLayout {
         Layout.alignment: Qt.AlignRight
 
@@ -77,8 +76,8 @@ ColumnLayout {
         }
         Button {
             text: qsTr("Delete configuration")
-            enabled: slotRadioBtns.current !== null
-                     && slotsEnabled[slotRadioBtns.current.slotNumber - 1]
+            enabled: true // slotRadioBtns.current !== null
+            //&& slotsEnabled[slotRadioBtns.current.slotNumber - 1]
             onClicked: {
                 confirmErase.slotNumber = slotRadioBtns.current.slotNumber
                 confirmErase.open()
@@ -86,7 +85,7 @@ ColumnLayout {
         }
         Button {
             text: qsTr("New configuration")
-            enabled: slotRadioBtns.current !== null
+            enabled: true //slotRadioBtns.current !== null
             onClicked: configureSlot(slotRadioBtns.current.slotNumber)
         }
     }

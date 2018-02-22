@@ -1,5 +1,5 @@
 import QtQuick 2.5
-import QtQuick.Controls 1.4
+import QtQuick.Controls 2.3
 
 MenuBar {
 
@@ -29,7 +29,7 @@ MenuBar {
         MenuItem {
             text: qsTr("E\&xit")
             onTriggered: Qt.quit()
-            shortcut: StandardKey.Quit
+            //shortcut: StandardKey.Quit
         }
     }
 

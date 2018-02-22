@@ -1,6 +1,6 @@
 import QtQuick 2.5
 import QtQuick.Dialogs 1.2
-import QtQuick.Controls 1.4
+import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.1
 import QtQuick.Window 2.0
 import "slotutils.js" as SlotUtils
@@ -22,7 +22,8 @@ ColumnLayout {
     signal confirmed
 
     Label {
-        text: qsTr("Configure challenge-response for ") + SlotUtils.slotNameCapitalized(selectedSlot)
+        text: qsTr("Configure challenge-response for ") + SlotUtils.slotNameCapitalized(
+                  selectedSlot)
         font.bold: true
     }
 
@@ -49,20 +50,18 @@ ColumnLayout {
                     anchors.left: secretKeyInput.right
                     onClicked: generateKey()
                 }
-
             }
             RowLayout {
                 Label {
                     text: qsTr("The Secret key contains an even number of up to 40 hexadecimal characters.")
                 }
             }
-            RowLayout{
+            RowLayout {
                 CheckBox {
                     id: requireTouch
                     text: qsTr("Require touch")
                 }
             }
-
         }
     }
 
@@ -107,11 +106,9 @@ ColumnLayout {
                                                   confirmConfigured.open()
                                               } else {
                                                   if (error === 3) {
-                                                    writeError.open()
+                                                      writeError.open()
                                                   }
                                               }
                                           })
     }
-
-
 }

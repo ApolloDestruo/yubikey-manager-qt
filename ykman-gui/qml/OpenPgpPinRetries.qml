@@ -1,5 +1,5 @@
 import QtQuick 2.5
-import QtQuick.Controls 1.4
+import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
 
@@ -23,8 +23,8 @@ DefaultDialog {
                 id: pinRetries
                 Layout.fillWidth: true
                 value: 3
-                maximumValue: 99
-                minimumValue: 1
+                //maximumValue: 99
+                //minimumValue: 1
             }
             Label {
                 text: qsTr("Reset Code:")
@@ -34,8 +34,8 @@ DefaultDialog {
                 id: resetCodeRetries
                 Layout.fillWidth: true
                 value: 3
-                maximumValue: 99
-                minimumValue: 1
+                //maximumValue: 99
+                // minimumValue: 1
             }
             Label {
                 text: qsTr("Admin PIN:")
@@ -45,8 +45,8 @@ DefaultDialog {
                 id: adminPinRetries
                 Layout.fillWidth: true
                 value: 3
-                maximumValue: 99
-                minimumValue: 1
+                // maximumValue: 99
+                // minimumValue: 1
             }
         }
 

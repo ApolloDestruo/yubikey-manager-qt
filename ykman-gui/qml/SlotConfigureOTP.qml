@@ -1,6 +1,6 @@
 import QtQuick 2.5
 import QtQuick.Dialogs 1.2
-import QtQuick.Controls 1.4
+import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.1
 import QtQuick.Window 2.0
 import "slotutils.js" as SlotUtils
@@ -21,7 +21,8 @@ ColumnLayout {
     signal goToOathHotp
 
     Label {
-        text: qsTr("Configure Yubico OTP for ") + SlotUtils.slotNameCapitalized(selectedSlot)
+        text: qsTr("Configure Yubico OTP for ") + SlotUtils.slotNameCapitalized(
+                  selectedSlot)
         font.bold: true
     }
 
@@ -29,37 +30,35 @@ ColumnLayout {
         text: qsTr("When triggered, the YubiKey will output a one time password.")
     }
 
-
     GroupBox {
         title: qsTr("Public ID")
         Layout.fillWidth: true
         ColumnLayout {
 
-         RowLayout{
-             TextField {
-                 id: publicIdInput
-                 enabled: !useSerialCb.checked
-                 implicitWidth: 110
-                 font.family: "Courier"
-                 validator: RegExpValidator {
-                     regExp: /[cbdefghijklnrtuv]{12}$/
-                 }
-             }
-             CheckBox {
-                 id: useSerialCb
-                 anchors.margins: 5
-                 enabled: device.serial
-                 anchors.left: publicIdInput.right
-                 text: qsTr("Use encoded serial number")
-                 onCheckedChanged: useSerial()
-             }
-         }
-         RowLayout {
-             Label {
-                 text: qsTr("The Public ID can contain the following characters: cbdefghijklnrtuv.")
-             }
-         }
-
+            RowLayout {
+                TextField {
+                    id: publicIdInput
+                    enabled: !useSerialCb.checked
+                    implicitWidth: 110
+                    font.family: "Courier"
+                    validator: RegExpValidator {
+                        regExp: /[cbdefghijklnrtuv]{12}$/
+                    }
+                }
+                CheckBox {
+                    id: useSerialCb
+                    anchors.margins: 5
+                    enabled: device.serial
+                    anchors.left: publicIdInput.right
+                    text: qsTr("Use encoded serial number")
+                    onCheckedChanged: useSerial()
+                }
+            }
+            RowLayout {
+                Label {
+                    text: qsTr("The Public ID can contain the following characters: cbdefghijklnrtuv.")
+                }
+            }
         }
     }
 
@@ -68,27 +67,27 @@ ColumnLayout {
         Layout.fillWidth: true
         ColumnLayout {
 
-             RowLayout{
-                 TextField {
-                     id: privateIdInput
-                     implicitWidth: 110
-                     font.family: "Courier"
-                     validator: RegExpValidator {
-                         regExp: /[0-9a-fA-F]{12}$/
-                     }
-                 }
-                 Button {
-                     anchors.margins: 5
-                     text: qsTr("Generate")
-                     anchors.left: privateIdInput.right
-                     onClicked: generatePrivateId()
-                 }
-             }
-             RowLayout {
-                 Label {
-                     text: qsTr("The Private ID contains 12 hexadecimal characters.")
-                 }
-             }
+            RowLayout {
+                TextField {
+                    id: privateIdInput
+                    implicitWidth: 110
+                    font.family: "Courier"
+                    validator: RegExpValidator {
+                        regExp: /[0-9a-fA-F]{12}$/
+                    }
+                }
+                Button {
+                    anchors.margins: 5
+                    text: qsTr("Generate")
+                    anchors.left: privateIdInput.right
+                    onClicked: generatePrivateId()
+                }
+            }
+            RowLayout {
+                Label {
+                    text: qsTr("The Private ID contains 12 hexadecimal characters.")
+                }
+            }
         }
     }
 
@@ -97,27 +96,27 @@ ColumnLayout {
         Layout.fillWidth: true
         ColumnLayout {
 
-             RowLayout{
-                 TextField {
-                     id: secretKeyInput
-                     implicitWidth: 260
-                     font.family: "Courier"
-                     validator: RegExpValidator {
-                         regExp: /[0-9a-fA-F]{32}$/
-                     }
-                 }
-                 Button {
-                     anchors.margins: 5
-                     anchors.left: secretKeyInput.right
-                     text: qsTr("Generate")
-                     onClicked: generateKey()
-                 }
-             }
-             RowLayout {
-                 Label {
-                     text: qsTr("The Secret key contains 32 hexadecimal characters.")
-                 }
-             }
+            RowLayout {
+                TextField {
+                    id: secretKeyInput
+                    implicitWidth: 260
+                    font.family: "Courier"
+                    validator: RegExpValidator {
+                        regExp: /[0-9a-fA-F]{32}$/
+                    }
+                }
+                Button {
+                    anchors.margins: 5
+                    anchors.left: secretKeyInput.right
+                    text: qsTr("Generate")
+                    onClicked: generateKey()
+                }
+            }
+            RowLayout {
+                Label {
+                    text: qsTr("The Secret key contains 32 hexadecimal characters.")
+                }
+            }
         }
     }
 
@@ -178,10 +177,9 @@ ColumnLayout {
                                    confirmConfigured.open()
                                } else {
                                    if (error === 3) {
-                                     writeError.open()
+                                       writeError.open()
                                    }
                                }
                            })
     }
-
 }
