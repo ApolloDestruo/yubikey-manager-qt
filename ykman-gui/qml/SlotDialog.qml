@@ -6,15 +6,15 @@ import QtQuick.Window 2.0
 
 DefaultDialog {
 
-    title: qsTr("Configure YubiKey Slots")
+    //title: qsTr("Configure YubiKey Slots")
 
     property var device
     property var slotsEnabled: [false, false]
     property bool hasDevice: device ? device.hasDevice : false
     property int selectedSlot
     signal goToOverview
-    minimumWidth: 500
 
+    //minimumWidth: 500
     onHasDeviceChanged: close()
     onGoToOverview: loader.source = "SlotOverview.qml"
 

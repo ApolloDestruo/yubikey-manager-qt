@@ -6,8 +6,8 @@ Item {
     property var device
     property int margin: Layout.minimumWidth / 30
 
-    width: 370
-    height: 350
+    //width: 370
+    //height: 350
     Layout.minimumWidth: 370
     Layout.minimumHeight: 350
 

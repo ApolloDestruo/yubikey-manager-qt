@@ -1,160 +1,19 @@
 import QtQuick 2.5
 import QtQuick.Controls 2.3
-import QtQuick.Layouts 1.1
-import QtQuick.Dialogs 1.2
+import QtQuick.Controls.Material 2.3
+import QtQuick.Layouts 1.3
 
 ApplicationWindow {
+    id: applicationWindow
     visible: true
     title: qsTr("YubiKey Manager")
-    flags: Qt.CustomizeWindowHint | Qt.WindowTitleHint | Qt.WindowCloseButtonHint
-           | Qt.WindowMinimizeButtonHint | Qt.MSWindowsFixedSizeDialogHint
+    width: 640
+    height: 400
+    property var device: yk
+    Material.primary: "#9aca3c"
+    Material.accent: "#284c61"
 
-    menuBar: MainMenuBar {
-        enabledFeatures: yk.enabled
-        enableConnectionsDialog: yk.connections.length > 1
-        enablePgpTouch: supportsOpenPgpTouch()
-        enablePgpPinRetries: supportsOpenPgpPinRetries()
-    }
-
-    AboutPage {
-        id: aboutPage
-    }
-
-    Shortcut {
-        sequence: StandardKey.Close
-        onActivated: close()
-    }
-
-    // @disable-check M301
-    YubiKey {
-        id: yk
-        onError: console.log(traceback)
-    }
-
-    Timer {
-        id: timer
-        triggeredOnStart: true
-        interval: 500
-        repeat: true
-        running: true
-        onTriggered: yk.refresh()
-    }
-
-    Loader {
-        id: loader
-        sourceComponent: yk.hasDevice ? deviceInfo : message
-
-        anchors.fill: parent
-        Layout.minimumWidth: item.Layout.minimumWidth
-        Layout.minimumHeight: item.Layout.minimumHeight
-    }
-
-    Component {
-        id: message
-        Text {
-            text: if (yk.nDevices == 0) {
-                      qsTr("No YubiKey detected.")
-                  } else if (yk.nDevices == 1) {
-                      qsTr("Connecting to YubiKey...")
-                  } else {
-                      qsTr("Multiple YubiKeys detected!")
-                  }
-            Layout.minimumWidth: 370
-            Layout.minimumHeight: 360
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-        }
-    }
-
-    Component {
-        id: deviceInfo
-        DeviceInfo {
-            device: yk
-        }
-    }
-
-    SlotDialog {
-        id: slotDialog
-        device: yk
-    }
-
-    ConnectionsDialog {
-        id: connectionsDialog
-        device: yk
-    }
-
-    SwapSlotDialog {
-        id: swapSlotsDialog
-        device: yk
-    }
-
-    OpenPgpResetDialog {
-        id: openPgpResetDialog
-        device: yk
-    }
-
-    OpenPgpPinRetries {
-        id: openPgpPinRetries
-        device: yk
-    }
-
-    OpenPgpTouchPolicy {
-        id: openPgpTouchPolicy
-        device: yk
-    }
-
-    OpenPgpShowStatus {
-        id: openPgpStatus
-        device: yk
-    }
-
-    MessageDialog {
-        id: openPgpResetConfirm
-        icon: StandardIcon.Information
-        title: qsTr("OpenPGP functionality has been reset.")
-        text: qsTr("All data has been cleared and default PINs are set.")
-        standardButtons: StandardButton.Ok
-    }
-    MessageDialog {
-        id: confirmSwapped
-        icon: StandardIcon.Information
-        title: qsTr("Slot credentials swapped")
-        text: qsTr("The credentials in the short press and the long press slot has now been swapped.")
-        standardButtons: StandardButton.Ok
-    }
-    MessageDialog {
-        id: openPgpTouchConfirm
-        icon: StandardIcon.Information
-        title: qsTr("Touch Policy for OpenPGP")
-        text: qsTr("A new touch policy for OpenPGP has been set.")
-        standardButtons: StandardButton.Ok
-    }
-    MessageDialog {
-        id: openPgpPinRetriesConfirm
-        icon: StandardIcon.Information
-        title: qsTr("Pin retries for OpenPGP")
-        text: qsTr("New pin retries for OpenPGP has been set.")
-        standardButtons: StandardButton.Ok
-    }
-
-    function supportsOpenPgpTouch() {
-        // Touch policy for OpenPGP is available from version 4.2.0.
-        return parseInt(yk.version.split('.').join('')) >= 420
-    }
-
-    function supportsOpenPgpPinRetries() {
-        // Note: this only works for YK4. NEOs below 1.0.7 doesn't support this,
-        // but since we need to select the applet to get the OpenPGP version,
-        // we allow all NEOs to try.
-        var version = yk.version.split('.').join('')
-        return version < 400 || version > 431
-    }
-
-    function clearsPinWhenSettingPinRetries() {
-        var version = yk.version.split('.').join('')
-        return version < 400
-    }
-
+    //Material.theme: Material.Dark
     function enableLogging(logLevel) {
         yk.enableLogging(logLevel, null)
     }
@@ -163,5 +22,145 @@ ApplicationWindow {
     }
     function disableLogging() {
         yk.disableLogging()
+    }
+
+    header: ToolBar {
+        RowLayout {
+            anchors.fill: parent
+            ToolButton {
+                text: qsTr("‹")
+                onClicked: stack.pop()
+            }
+            Label {
+                text: "YubiKey Manager"
+                Material.foreground: "white"
+                elide: Label.ElideRight
+                horizontalAlignment: Qt.AlignHCenter
+                verticalAlignment: Qt.AlignVCenter
+                Layout.fillWidth: true
+            }
+            ToolButton {
+                text: qsTr("⋮")
+            }
+        }
+    }
+
+    ColumnLayout {
+        anchors.fill: parent
+        /*
+        Item {
+            id: item1
+            Layout.minimumHeight: 50
+            Layout.maximumHeight: 50
+            Layout.fillWidth: true
+            Layout.fillHeight: false
+            Layout.preferredHeight: 50
+            Image {
+                id: logo
+                anchors.top: parent.top
+                anchors.topMargin: 5
+                anchors.left: parent.left
+                anchors.leftMargin: 12
+                sourceSize.height: 50
+                source: "images/logo.png"
+            }
+        }*/
+        RowLayout {
+            spacing: 5
+            Layout.preferredHeight: 350
+            Layout.fillHeight: false
+            ColumnLayout {
+                x: 0
+                Layout.minimumWidth: 130
+                Layout.columnSpan: 1
+                Layout.fillWidth: false
+                Layout.alignment: Qt.AlignLeft | Qt.AlignTop
+                Button {
+                    x: 0
+                    text: qsTr("HOME")
+                    highlighted: true
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    Layout.fillWidth: false
+                    flat: true
+                    onClicked: {
+                        stack.clear()
+                        stack.push(deviceInfoView)
+                    }
+                }
+                Button {
+                    text: qsTr("YUBIKEY SLOTS")
+                    Layout.fillWidth: false
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    flat: true
+                    onClicked: {
+                        stack.clear()
+                        stack.push(slotView)
+                    }
+                }
+                Button {
+                    x: 0
+                    text: qsTr("FIDO 2")
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    flat: true
+                    onClicked: {
+                        stack.clear()
+                        stack.push(fido2View)
+                    }
+                }
+                Button {
+                    x: 0
+                    text: "CONNECTIONS"
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    flat: true
+                    onClicked: {
+                        stack.clear()
+                        stack.replace(connectionsView)
+                    }
+                }
+            }
+
+            ColumnLayout {
+                id: hello
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                StackView {
+                    id: stack
+                    initialItem: deviceInfoView
+                    Component {
+                        id: deviceInfoView
+                        DeviceInfoView {
+                        }
+                    }
+                    Component {
+                        id: slotView
+                        SlotView {
+                        }
+                    }
+                    Component {
+                        id: fido2View
+                        Fido2View {
+                        }
+                    }
+                    Component {
+                        id: connectionsView
+                        ConnectionsView {
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // @disable-check M301
+    YubiKey {
+        id: yk
+        onError: console.log(traceback)
+    }
+    Timer {
+        id: timer
+        triggeredOnStart: true
+        interval: 500
+        repeat: true
+        running: true
+        onTriggered: yk.refresh()
     }
 }

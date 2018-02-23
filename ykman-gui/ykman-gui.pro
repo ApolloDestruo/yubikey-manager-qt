@@ -1,5 +1,5 @@
 TEMPLATE = app
-QT += qml quick widgets
+QT += qml quick widgets quickcontrols2
 CONFIG += c++11
 SOURCES += main.cpp
 
@@ -80,4 +80,8 @@ lupdate_only {
 }
 
 DISTFILES += \
-    py/yubikey.py
+    py/yubikey.py \
+    qml/ConnectionsView.qml \
+    qml/DeviceInfoView.qml \
+    qml/Fido2View.qml \
+    qml/SlotView.qml

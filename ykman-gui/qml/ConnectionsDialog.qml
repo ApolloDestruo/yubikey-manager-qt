@@ -3,25 +3,13 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
 
-DefaultDialog {
+Item {
 
     property var device
-    title: qsTr("Configure Connections")
-    minimumWidth: 500
-    onAccepted: {
-        var enabled = get_enabled()
-        device.set_mode(enabled, function (error) {
-            if (error) {
-                if (error === 'Failed to switch mode.') {
-                    modeSwitchError.open()
-                }
-            } else {
-                close()
-                ejectNow.open()
-            }
-        })
-    }
 
+    onAccepted: {
+
+    }
     ColumnLayout {
         anchors.fill: parent
         Label {
@@ -41,20 +29,7 @@ DefaultDialog {
             }
         }
 
-        RowLayout {
-            Layout.fillWidth: true
-            Layout.alignment: Qt.AlignHCenter
-            Repeater {
-                id: connections
-                model: device.connections
 
-                CheckBox {
-                    Layout.fillWidth: true
-                    text: modelData
-                    checked: device.enabled.indexOf(modelData) >= 0
-                }
-            }
-        }
 
         RowLayout {
             Layout.alignment: Qt.AlignRight
@@ -117,5 +92,19 @@ DefaultDialog {
             }
         }
         return false
+    }
+
+    function switchMode() {
+        var enabled = get_enabled()
+        device.set_mode(enabled, function (error) {
+            if (error) {
+                if (error === 'Failed to switch mode.') {
+                    modeSwitchError.open()
+                }
+            } else {
+                close()
+                ejectNow.open()
+            }
+        })
     }
 }

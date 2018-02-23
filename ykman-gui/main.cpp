@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <QtGlobal>
 #include <QtWidgets>
+#include <QQuickStyle>
 #ifndef Q_OS_DARWIN
 #include <QtSingleApplication>
 #endif
@@ -27,6 +28,8 @@ int main(int argc, char *argv[])
     #else
     QApplication app(argc, argv);
     #endif
+    QQuickStyle::setStyle("Material");
+
 
     QString app_dir = app.applicationDirPath();
     QString main_qml = "/qml/main.qml";

@@ -3,12 +3,12 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.1
 import QtQuick.Window 2.2
 
-ApplicationWindow {
+Item {
 
-    flags: Qt.Dialog | Qt.CustomizeWindowHint | Qt.WindowTitleHint
-           | Qt.WindowCloseButtonHint | Qt.MSWindowsFixedSizeDialogHint
-    modality: Qt.ApplicationModal
 
+    //flags: Qt.Dialog | Qt.CustomizeWindowHint | Qt.WindowTitleHint
+    //       | Qt.WindowCloseButtonHint | Qt.MSWindowsFixedSizeDialogHint
+    //modality: Qt.ApplicationModal
     default property alias content: inner_content.data
     signal accepted
     signal rejected
