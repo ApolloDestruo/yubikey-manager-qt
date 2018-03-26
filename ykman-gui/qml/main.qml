@@ -87,21 +87,39 @@ ApplicationWindow {
     Component {
         id: message
         ColumnLayout {
-            anchors.fill: parent
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            Label {
-                Layout.fillHeight: true
+            GroupBox {
+                Layout.margins: 12
+                title: qsTr("Device")
                 Layout.fillWidth: true
-                text: if (yk.nDevices == 0) {
-                          qsTr("No YubiKey detected.")
-                      } else if (yk.nDevices == 1) {
-                          qsTr("Connecting to YubiKey...")
-                      } else {
-                          qsTr("Multiple YubiKeys detected!")
-                      }
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
+                Layout.fillHeight: true
+                Label {
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+                    text: if (yk.nDevices == 0) {
+                              qsTr("No YubiKey detected.\nInsert a YubiKey to configure.")
+                          } else if (yk.nDevices == 1) {
+                              qsTr("Connecting to YubiKey...")
+                          } else {
+                              qsTr("Multiple YubiKeys detected!")
+                          }
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter
+                }
+            }
+            GroupBox {
+                Layout.margins: 12
+                title: qsTr("Things you can do with the YubiKey Manager")
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                GridLayout {
+                    columns: 1
+                    Label {
+                        Layout.fillHeight: true
+                        Layout.fillWidth: true
+                        text: qsTr("•  Add or change a PIN on your FIDO 2 enabled YubiKey\n•  Enable or disable connections on your YubiKey\n•  Program custom functionality into the short or long button touches\n•  Swap the functionalities between the short and long button touches")
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                }
             }
         }
     }
