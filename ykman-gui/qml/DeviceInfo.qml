@@ -18,13 +18,17 @@ ColumnLayout {
             GridLayout {
                 columns: 1
                 Label {
-                    text: device.name
+                    text: (device.name === 'YubiKey 4') ? device.name + ' Series' : device.name
+                    leftPadding: 10
+                    topPadding: 5
                 }
                 Label {
                     text: qsTr("Firmware: ") + device.version
+                    leftPadding: 10
                 }
                 Label {
                     text: qsTr("Serial: ") + (device.serial ? device.serial : 'Unknown')
+                    leftPadding: 10
                 }
             }
         }
@@ -73,19 +77,20 @@ ColumnLayout {
 
             Rectangle {
                 id: deviceRect
-                width:300
+                width:120
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+                color: "transparent"
                 Image {
                     id: deviceImage
-                    width: 120
-                    height: 34
+                    width: 77
+                    height: 180
                     fillMode: Image.PreserveAspectCrop
                     anchors.left: parent.left
-                    anchors.leftMargin: 12
-                    anchors.bottomMargin: 9
                     anchors.bottom: parent.bottom
-                    source: "../images/yubico-logo.svg"
+                    anchors.leftMargin: 33
+                    source: getKeyImage(device.name);
+                    horizontalAlignment: Text.AlignHCenter
                 }
             }
 
@@ -194,5 +199,15 @@ ColumnLayout {
             var last = args.pop()
             return args.join(', ') + qsTr(' and ') + last
         }
+    }
+
+    function getKeyImage(name){
+        if(name === "YubiKey 4"){
+            return "../images/yk4.png";
+        } else if (name === "YubiKey NEO"){
+            return "../images/neo.png";
+        } else if (name === "FIDO U2F Security Key"){
+            return "../images/sky.png";
+        } //TODO add FIDO 2
     }
 }

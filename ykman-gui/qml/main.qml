@@ -93,6 +93,7 @@ ApplicationWindow {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 Label {
+                    anchors.fill: parent
                     Layout.fillHeight: true
                     Layout.fillWidth: true
                     text: if (yk.nDevices == 0) {
@@ -107,19 +108,19 @@ ApplicationWindow {
                 }
             }
             GroupBox {
-                Layout.margins: 12
+                Layout.rightMargin: 12
+                Layout.leftMargin: 12
+                Layout.bottomMargin: 12
                 title: qsTr("Things you can do with the YubiKey Manager")
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                GridLayout {
-                    columns: 1
                     Label {
                         Layout.fillHeight: true
                         Layout.fillWidth: true
-                        text: qsTr("•  Add or change a PIN on your FIDO 2 enabled YubiKey\n•  Enable or disable connections on your YubiKey\n•  Program custom functionality into the short or long button touches\n•  Swap the functionalities between the short and long button touches")
-                        verticalAlignment: Text.AlignVCenter
+                        text: qsTr("•  Add or change a PIN on your FIDO 2 enabled YubiKey\n•  Enable or disable connections on your YubiKey\n•  Program custom functionality into the short or long button touches (OTP slots)\n•  Swap the functionalities between the short and long button touches (OTP slots)")
+                        leftPadding:12
+                        topPadding:6
                     }
-                }
             }
         }
     }
