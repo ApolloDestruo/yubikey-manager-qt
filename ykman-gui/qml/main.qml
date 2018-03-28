@@ -87,6 +87,9 @@ ApplicationWindow {
     Component {
         id: message
         ColumnLayout {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.bottomMargin: 10
             GroupBox {
                 Layout.margins: 12
                 title: qsTr("Device")
@@ -101,7 +104,7 @@ ApplicationWindow {
                           } else if (yk.nDevices == 1) {
                               qsTr("Connecting to YubiKey...")
                           } else {
-                              qsTr("Multiple YubiKeys detected!")
+                              qsTr("Multiple YubiKeys detected!\nYubiKeys must be configured one at a time.")
                           }
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter

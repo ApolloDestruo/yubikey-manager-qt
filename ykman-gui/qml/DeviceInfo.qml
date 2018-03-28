@@ -35,62 +35,56 @@ ColumnLayout {
 
        GridLayout{
            columns: 3
+           Layout.bottomMargin: 10
             GroupBox {
                 id: connectionsBox
                 checkable: false
                 flat: false
-                title: qsTr("Connections")
+                title: qsTr("USB Interfaces")
                 Layout.fillWidth: false
                 Layout.fillHeight: true
-                GridLayout {
-                    rows: 0
+                ColumnLayout {
                     anchors.right: parent.right
                     anchors.left: parent.left
-                    columns: 3
-                    Label {
-                        text: qsTr("Supported:")
-                    }
-
-                    Label {
-                        text: readable_list(device.connections)
-                        Layout.columnSpan: 2
-                    }
-
-                    Label {
-                        text: qsTr("Enabled:")
-                    }
-
-                    Label {
-                        text: readable_list(device.enabled.filter(function (e) {
-                            return device.connections.indexOf(e) >= 0
-                        }))
-                    }
                     Button {
                         id: connectionsBtn
-                        text: qsTr("Configure...")
+                        text: qsTr("Enable / Disable")
                         Layout.alignment: Qt.AlignRight
                         enabled: device.connections.length > 1
                         onClicked: connectionsDialog.show()
+                        Layout.bottomMargin: -18
+                    }
+
+                    Repeater {
+                        id: connectionsRepeater
+                        model: device.connections
+                        Label {
+                            text: (device.enabled.indexOf(modelData) < 0) ? "disabled - " + modelData : modelData
+                            color: (device.enabled.indexOf(modelData) < 0) ? "gray" : "black"
+                            anchors.right: parent.right
+                            Layout.topMargin: 22
+                        }
                     }
                 }
             }
 
             Rectangle {
                 id: deviceRect
-                width:120
+                width:180
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 color: "transparent"
-                Image {
+                AnimatedImage {
                     id: deviceImage
-                    width: 77
-                    height: 180
+                    width: 210
+                    height: 175
                     fillMode: Image.PreserveAspectCrop
-                    anchors.left: parent.left
-                    anchors.bottom: parent.bottom
-                    anchors.leftMargin: 33
+                    anchors.top: parent.top
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.topMargin: 12
                     source: getKeyImage(device.name);
                     horizontalAlignment: Text.AlignHCenter
+                    onPlayingChanged: deviceImage.playing = true
                 }
             }
 
@@ -118,6 +112,9 @@ ColumnLayout {
                             label: qsTr('FIDO 2'),
                             onConfigure: fidoDialog.load
                         }, {
+                            id: 'U2F',
+                            label: qsTr('U2F')
+                        }, {
                             id: 'PIV',
                             label: qsTr('PIV'),
                             onConfigure: featureFlag_pivManager ? pivManager.start : undefined
@@ -127,9 +124,6 @@ ColumnLayout {
                         }, {
                             id: 'OPGP',
                             label: qsTr('OpenPGP')
-                        }, {
-                            id: 'U2F',
-                            label: qsTr('U2F')
                         }]
 
                     Repeater {
@@ -138,8 +132,20 @@ ColumnLayout {
                             Layout.column: 0
                             Layout.row: index
                             text: modelData.label + ':'
+                            color: (isCapable(
+                                        modelData.id) ? isEnabled(
+                                                            modelData.id) ? "black" :
+                                                                                "grey" :
+                                                                                "grey")
+                            visible: (isCapable(
+                                          modelData.id) ? isEnabled(
+                                                              modelData.id) ? true :
+                                                                                  true :
+                                                                                    false)
                         }
+
                     }
+
 
                     Repeater {
                         model: parent.features
@@ -151,6 +157,16 @@ ColumnLayout {
                                                            modelData.id) ? qsTr("Enabled") : qsTr(
                                                                                "Disabled") : qsTr(
                                                                                "Not available"))
+                            color: (isCapable(
+                                        modelData.id) ? isEnabled(
+                                                            modelData.id) ? "black" :
+                                                                                "grey" :
+                                                                                "grey")
+                            visible: (isCapable(
+                                          modelData.id) ? isEnabled(
+                                                              modelData.id) ? true :
+                                                                                  true :
+                                                                                    false)
                         }
                     }
 
@@ -161,7 +177,7 @@ ColumnLayout {
                             Layout.column: 2
                             Layout.row: index
                             Layout.alignment: Qt.AlignRight
-                            text: qsTr("Configure...")
+                            text: qsTr("Configure")
                             enabled: isEnabled(modelData.id)
                             visible: parent.features[index].onConfigure !== undefined
                             focus: true
@@ -202,12 +218,34 @@ ColumnLayout {
     }
 
     function getKeyImage(name){
+
+        var deviceCaps = device.enabled;
+        var fileEnding = [];
+
+        // create an Array in the style [1,0,1] depending on
+        // if capabilities are available and turned on
+
+        if(deviceCaps.indexOf('OTP') !== -1){
+            fileEnding.push(1);
+        } else fileEnding.push(0);
+
+        if(deviceCaps.indexOf('U2F') !== -1){
+            fileEnding.push(1);
+        } else fileEnding.push(0);
+
+        if(deviceCaps.indexOf('CCID') !== -1){
+            fileEnding.push(1);
+        } else fileEnding.push(0);
+
+        var fileEndingString = fileEnding.join('');
+
         if(name === "YubiKey 4"){
-            return "../images/yk4.png";
+            return "../images/anim/yk4-"+fileEndingString+".gif";
         } else if (name === "YubiKey NEO"){
-            return "../images/neo.png";
+            return "../images/anim/neo-"+fileEndingString+".gif";
         } else if (name === "FIDO U2F Security Key"){
-            return "../images/sky.png";
+            return "../images/anim/sky-100.gif";
         } //TODO add FIDO 2
     }
+
 }
