@@ -14,7 +14,7 @@ ColumnLayout {
             id: deviceBox
             title: qsTr("Device")
             Layout.fillWidth: true
-            Layout.fillHeight: true
+            Layout.fillHeight: false
             GridLayout {
                 columns: 1
                 Label {
@@ -29,6 +29,7 @@ ColumnLayout {
                 Label {
                     text: qsTr("Serial: ") + (device.serial ? device.serial : 'Unknown')
                     leftPadding: 10
+                    bottomPadding: 10
                 }
             }
         }
@@ -71,6 +72,7 @@ ColumnLayout {
             Rectangle {
                 id: deviceRect
                 width:180
+                height: 160
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 color: "transparent"
@@ -137,11 +139,6 @@ ColumnLayout {
                                                             modelData.id) ? "black" :
                                                                                 "grey" :
                                                                                 "grey")
-                            visible: (isCapable(
-                                          modelData.id) ? isEnabled(
-                                                              modelData.id) ? true :
-                                                                                  true :
-                                                                                    false)
                         }
 
                     }
@@ -162,11 +159,6 @@ ColumnLayout {
                                                             modelData.id) ? "black" :
                                                                                 "grey" :
                                                                                 "grey")
-                            visible: (isCapable(
-                                          modelData.id) ? isEnabled(
-                                                              modelData.id) ? true :
-                                                                                  true :
-                                                                                    false)
                         }
                     }
 
