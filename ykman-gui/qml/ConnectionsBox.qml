@@ -156,7 +156,7 @@ ColumnLayout {
         Layout.alignment: Qt.AlignRight
 
         enabled: device.connections.length > 1 && isAcceptableConfiguration() && !saving
-        text: qsTr('Save')
+        text: qsTr('Apply')
         visible: unlocked
 
         onClicked: commit(unsavedConnections)
