@@ -145,11 +145,6 @@ ApplicationWindow {
         device: yk
     }
 
-    ConnectionsDialog {
-        id: connectionsDialog
-        device: yk
-    }
-
     OpenPgpResetDialog {
         id: openPgpResetDialog
         device: yk

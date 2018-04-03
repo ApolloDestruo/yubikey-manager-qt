@@ -44,28 +44,9 @@ ColumnLayout {
                 title: qsTr("USB Interfaces")
                 Layout.fillWidth: false
                 Layout.fillHeight: true
-                ColumnLayout {
-                    anchors.right: parent.right
-                    anchors.left: parent.left
-                    Button {
-                        id: connectionsBtn
-                        text: qsTr("Enable / Disable")
-                        Layout.alignment: Qt.AlignRight
-                        enabled: device.connections.length > 1
-                        onClicked: connectionsDialog.show()
-                        Layout.bottomMargin: -18
-                    }
 
-                    Repeater {
-                        id: connectionsRepeater
-                        model: device.connections
-                        Label {
-                            text: (device.enabled.indexOf(modelData) < 0) ? "disabled - " + modelData : modelData
-                            color: (device.enabled.indexOf(modelData) < 0) ? "gray" : "black"
-                            anchors.right: parent.right
-                            Layout.topMargin: 22
-                        }
-                    }
+                ConnectionsBox {
+                    device: deviceInfo.device
                 }
             }
 
