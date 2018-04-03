@@ -144,3 +144,14 @@ function sum(arr) {
 function union(arr1, arr2) {
     return arr1.concat.apply(arr1, arr2.filter(function(item) { return !includes(arr1, item); }));
 }
+
+/**
+ * Return the union of two arrays.
+ *
+ * @param arr an Array
+ * @param item a value
+ * @return a new array containing all items in `arr` that are `!== item`
+ */
+function without(arr, item) {
+    return arr.filter(function(it) { return it !== item; });
+}
