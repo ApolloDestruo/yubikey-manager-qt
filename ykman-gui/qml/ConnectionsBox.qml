@@ -76,43 +76,27 @@ ColumnLayout {
         }
     }
 
-    RowLayout {
+    Button {
+        id: unlockConnectionsButton
+        Layout.bottomMargin: -18
 
-        Button {
-            id: unlockConnectionsButton
-            Layout.bottomMargin: -18
+        enabled: device.connections.length > 1
+        text: qsTr('Configure')
+        visible: !unlocked
 
-            enabled: device.connections.length > 1
-            text: qsTr('Configure')
-            visible: !unlocked
+        onClicked: startConfiguringConnections()
+    }
 
-            onClicked: startConfiguringConnections()
-        }
+    Button {
+        id: cancelConnectionsButton
+        Layout.alignment: Qt.AlignRight
+        Layout.bottomMargin: -18
 
-        Button {
-            id: cancelConnectionsButton
-            Layout.alignment: Qt.AlignRight
-            Layout.bottomMargin: -18
+        enabled: device.connections.length > 1 && !saving
+        text: qsTr('Cancel')
+        visible: unlocked
 
-            enabled: device.connections.length > 1 && !saving
-            text: qsTr('Cancel')
-            visible: unlocked
-
-            onClicked: reset()
-        }
-
-        Button {
-            id: commitConnectionsButton
-            Layout.alignment: Qt.AlignRight
-            Layout.bottomMargin: -18
-
-            enabled: device.connections.length > 1 && isAcceptableConfiguration() && !saving
-            text: qsTr('Save')
-            visible: unlocked
-
-            onClicked: commit(unsavedConnections)
-        }
-
+        onClicked: reset()
     }
 
     GridLayout {
@@ -165,6 +149,18 @@ ColumnLayout {
                 }
             }
         }
+    }
+
+    Button {
+        id: commitConnectionsButton
+        Layout.alignment: Qt.AlignRight
+        Layout.topMargin: 12
+
+        enabled: device.connections.length > 1 && isAcceptableConfiguration() && !saving
+        text: qsTr('Save')
+        visible: unlocked
+
+        onClicked: commit(unsavedConnections)
     }
 
     MessageDialog {
