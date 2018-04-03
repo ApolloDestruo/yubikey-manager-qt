@@ -64,7 +64,7 @@ ColumnLayout {
     }
 
     function isUnsavedEnabled(connectionId) {
-        return Utils.includes(unsavedConnections, connectionId)
+        return unsavedConnections && Utils.includes(unsavedConnections, connectionId)
     }
 
 
