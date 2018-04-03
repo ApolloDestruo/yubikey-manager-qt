@@ -7,6 +7,13 @@ function includes(arr, value) {
 }
 
 /**
+ * Make a shallow copy of an array.
+ */
+function copyArray(arr) {
+    return arr.map(function(item) { return item; });
+}
+
+/**
  * Wait for `delayMillis` milliseconds, then call `callback`.
  *
  * @param callback a function to call after `delayMillis` milliseconds have passed
