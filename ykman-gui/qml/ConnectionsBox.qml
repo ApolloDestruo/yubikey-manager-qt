@@ -83,7 +83,7 @@ ColumnLayout {
             Layout.bottomMargin: -18
 
             enabled: device.connections.length > 1
-            text: qsTr("Unlock")
+            text: qsTr('Configure')
             visible: !unlocked
 
             onClicked: startConfiguringConnections()
@@ -144,8 +144,9 @@ ColumnLayout {
                 Layout.row: index
                 Layout.topMargin: 22
 
+                checked: isUnsavedEnabled(modelData)
                 enabled: !saving
-                checked: unlocked ? isUnsavedEnabled(modelData) : isEnabled(modelData)
+                visible: unlocked
 
                 signal fixState()
 
