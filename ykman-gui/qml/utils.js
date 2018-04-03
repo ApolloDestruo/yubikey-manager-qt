@@ -132,3 +132,15 @@ function startsWith(string, search, pos) {
 function sum(arr) {
     return arr.reduce(function(sum, next) { return sum + next }, 0)
 }
+
+/**
+ * Compute the union of two arrays.
+ *
+ * @param arr1 an Array
+ * @param arr2 an Array
+ * @return a new array containing all items in `arr1` followed by all items in
+ * `arr2` that are not contained in `arr1`
+ */
+function union(arr1, arr2) {
+    return arr1.concat.apply(arr1, arr2.filter(function(item) { return !includes(arr1, item); }));
+}
