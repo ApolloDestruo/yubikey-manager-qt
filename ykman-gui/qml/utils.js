@@ -88,6 +88,17 @@ function listToArray(lst) {
 }
 
 /**
+ * Compute the intersection of two arrays.
+ *
+ * @param arr1 an Array
+ * @param arr2 an Array
+ * @return a new Array containing all items that exist in both `arr1` and `arr2`
+ */
+function intersection(arr1, arr2) {
+    return arr1.filter(function(item) { return includes(arr2, item); });
+}
+
+/**
  * @param arr an array of numbers
  * @return the greatest value in `arr`
  */
