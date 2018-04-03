@@ -78,7 +78,7 @@ ColumnLayout {
 
     Button {
         id: unlockConnectionsButton
-        Layout.bottomMargin: -18
+        Layout.bottomMargin: 10
 
         enabled: device.connections.length > 1
         text: qsTr('Configure')
@@ -90,7 +90,7 @@ ColumnLayout {
     Button {
         id: cancelConnectionsButton
         Layout.alignment: Qt.AlignRight
-        Layout.bottomMargin: -18
+        Layout.bottomMargin: 10
 
         enabled: device.connections.length > 1 && !saving
         text: qsTr('Cancel')
@@ -112,7 +112,7 @@ ColumnLayout {
             Label {
                 Layout.column: 0
                 Layout.row: index
-                Layout.topMargin: 22
+                Layout.bottomMargin: 23
 
                 enabled: unlocked ? isUnsavedEnabled(modelData) : isEnabled(modelData)
                 text: modelData
@@ -126,7 +126,7 @@ ColumnLayout {
             Switch {
                 Layout.column: 1
                 Layout.row: index
-                Layout.topMargin: 22
+                Layout.bottomMargin: 23
 
                 checked: isUnsavedEnabled(modelData)
                 enabled: !saving
@@ -154,7 +154,6 @@ ColumnLayout {
     Button {
         id: commitConnectionsButton
         Layout.alignment: Qt.AlignRight
-        Layout.topMargin: 12
 
         enabled: device.connections.length > 1 && isAcceptableConfiguration() && !saving
         text: qsTr('Save')
